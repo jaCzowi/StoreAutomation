@@ -27,7 +27,7 @@ public class TransactionResultPage extends BasePage {
     private WebElement transactionTotalShipping;
     @FindBy(css = ".wpsc-purchase-log-transaction-results > tbody > tr")
     private List<WebElement> products;
-    
+
     public TransactionResultPage(WebDriver webDriver, Actions actions, WebDriverWait waitDriver) {
         super(webDriver, actions, waitDriver);
         PageFactory.initElements(webDriver, this);
@@ -62,7 +62,7 @@ public class TransactionResultPage extends BasePage {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         assertTrue(
-                transactionTotalShipping
+                waitUntilElementBeVisible(transactionTotalShipping)
                         .getText()
                         .replaceAll("[$,]", "")
                         .contains(String.valueOf(totalPaymentForItems.add(ContactDetailsPage.returnTotalShipping()))));

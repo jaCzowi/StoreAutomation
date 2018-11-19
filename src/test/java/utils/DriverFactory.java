@@ -4,9 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,11 +23,12 @@ public abstract class DriverFactory {
 
     private static WebDriver webDriver = null;
 
-    public static WebDriver getDriverForBrowser(String browserName) {
+    public static WebDriver getDriverForBrowser(String browserName) throws IOException {
         switch (browserName.toLowerCase()) {
-            case "fifrefox":
+            case "firefox":
                 System.setProperty(fireFoxDiver, getAbsoluteVariablePath("geckodriver.exe"));
-                webDriver = new FirefoxDriver();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                webDriver = new FirefoxDriver(firefoxOptions);
                 webDriver.manage().window().maximize();
                 break;
             case "chrome":
@@ -35,12 +41,20 @@ public abstract class DriverFactory {
                 webDriver = new InternetExplorerDriver();
                 webDriver.manage().window().maximize();
                 break;
+            case "chromeGRID":
+                webDriver = new RemoteWebDriver(
+                        new URL(PropertyLoader.loadValueByPropertyName("grid.url.hub")), new ChromeOptions());
+                break;
+            case "firefoxGRID":
+                webDriver = new RemoteWebDriver(
+                        new URL(PropertyLoader.loadValueByPropertyName("grid.url.hub")), DesiredCapabilities.firefox());
+                break;
         }
         return Optional.of(webDriver).orElseThrow(() -> new NoSuchElementException("Driver was not found!"));
     }
 
     public static void closeDriver() {
-        webDriver.close();
+        //   webDriver.close();
         webDriver.quit();
     }
 

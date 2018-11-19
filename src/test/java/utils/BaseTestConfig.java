@@ -12,7 +12,7 @@ public abstract class BaseTestConfig {
 
     @BeforeEach
     public void getBrowserDriver() throws IOException {
-        webDriver = DriverFactory.getDriverForBrowser(PropertyLoader.loadDriverByProperty("browser"));
+        webDriver = DriverFactory.getDriverForBrowser(PropertyLoader.loadValueByPropertyName("browser"));
         webDriver.get("http://store.demoqa.com");
     }
 

@@ -9,7 +9,7 @@ public class PropertyLoader {
 
     private static Properties properties = new Properties();
 
-    public static String loadDriverByProperty(String propertyName) throws IOException {
+    public static String loadValueByPropertyName(String propertyName) throws IOException {
         properties.load(getPropertyFile());
         return properties.getProperty(propertyName);
     }
