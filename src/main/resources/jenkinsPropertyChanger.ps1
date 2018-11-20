@@ -1,8 +1,8 @@
-[String]$Browser = "browser"
-[String]$nameBrowser= $name
+[String]$Browser="browser"
+[String]$nameBrowser=$name
 
-gc  browser.properties | Foreach-Object {
+gc  src\main\resources\browser.properties | Foreach-Object {
 	$_ -replace "$Browser.+", "$Browser=$env:Browser"`
-	} | Set-Content tempBrowser
-	rm browser.properties
-	rename-item tempBrowser browser.properties
+	} | Set-Content src\main\resources\tempBrowser
+	rm src\main\resources\browser.properties
+	rename-item src\main\resources\tempBrowser browser.properties
