@@ -54,7 +54,6 @@ public abstract class DriverFactory {
     }
 
     public static void closeDriver() {
-        //   webDriver.close();
         webDriver.quit();
     }
 
